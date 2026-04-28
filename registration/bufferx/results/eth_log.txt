@@ -1,0 +1,29 @@
+2026-03-08 04:57:22,109 [INFO] Start testing on ETH...
+2026-03-08 04:57:23,891 [INFO] Loaded Desc model from snapshot/threedmatch/Desc/best.pth
+2026-03-08 04:57:23,900 [INFO] Loaded Pose model from snapshot/threedmatch/Pose/best.pth
+2026-03-08 04:57:23,900 [INFO] Total number of trainable parameters: 0.91M
+2026-03-08 04:57:23,910 [INFO] Test set size: 713
+2026-03-08 04:59:35,710 [INFO] [100/713] Recall: 1.0000 RTE: 0.0639 RRE: 0.6779 Data time: 0.1120s Model time: 1.1184s
+2026-03-08 05:01:21,991 [INFO] [200/713] Recall: 1.0000 RTE: 0.0599 RRE: 0.6211 Data time: 0.0981s Model time: 0.8637s
+2026-03-08 05:02:56,754 [INFO] [300/713] Recall: 1.0000 RTE: 0.0576 RRE: 0.6542 Data time: 0.0630s Model time: 0.8476s
+2026-03-08 05:04:00,314 [INFO] 366th fragment failed, RRE: 2.3827, RTE: 0.1170
+2026-03-08 05:04:33,293 [INFO] [400/713] Recall: 0.9975 RTE: 0.0577 RRE: 0.6828 Data time: 0.0782s Model time: 0.7568s
+2026-03-08 05:06:13,470 [INFO] [500/713] Recall: 0.9980 RTE: 0.0577 RRE: 0.6493 Data time: 0.0948s Model time: 0.9842s
+2026-03-08 05:08:02,110 [INFO] [600/713] Recall: 0.9983 RTE: 0.0579 RRE: 0.6333 Data time: 0.1265s Model time: 1.0961s
+2026-03-08 05:08:22,756 [INFO] 616th fragment failed, RRE: 2.2541, RTE: 0.1560
+2026-03-08 05:09:56,739 [INFO] [700/713] Recall: 0.9971 RTE: 0.0595 RRE: 0.6348 Data time: 0.1054s Model time: 0.9455s
+2026-03-08 05:10:10,989 [INFO] [713/713] Recall: 0.9972 RTE: 0.0599 RRE: 0.6389 Data time: 0.1088s Model time: 1.0006s
+2026-03-08 05:10:10,989 [INFO] 
+---------------Results for ETH---------------
+2026-03-08 05:10:10,989 [INFO] Recall: 0.99719495
+2026-03-08 05:10:10,989 [INFO] RTE: 5.98702233
+2026-03-08 05:10:10,989 [INFO] RRE: 0.63894845
+2026-03-08 05:10:10,989 [INFO] Average data_time: 0.1047s 
+2026-03-08 05:10:10,989 [INFO] Average model_time: 0.9532s 
+
+[1;32m========== Final Results Summary ==========
++---------+----------+------------+-------------+--------------+---------------+
+| Scene   |   Recall |   RTE (cm) |   RRE (deg) | Avg data t   | Avg model t   |
++=========+==========+============+=============+==============+===============+
+| ETH     |   0.9972 |      5.987 |      0.6389 | 0.1047s      | 0.9532s       |
++---------+----------+------------+-------------+--------------+---------------+ [0m

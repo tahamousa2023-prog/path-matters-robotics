@@ -1,0 +1,84 @@
+2026-03-16 14:51:12,674 [INFO] Start testing on 3DMatch...
+2026-03-16 14:51:14,515 [INFO] Loaded Desc model from snapshot/threedmatch/Desc/best.pth
+2026-03-16 14:51:14,520 [INFO] Loaded Pose model from snapshot/threedmatch/Pose/best.pth
+2026-03-16 14:51:14,520 [INFO] Total number of trainable parameters: 0.91M
+2026-03-16 14:51:14,539 [INFO] Test set size: 1623
+2026-03-16 14:52:49,728 [INFO] [100/1623] Recall: 1.0000 RTE: 0.0462 RRE: 1.4873 Data time: 0.1102s Model time: 0.7530s
+2026-03-16 14:54:30,488 [INFO] [200/1623] Recall: 1.0000 RTE: 0.0437 RRE: 1.4991 Data time: 0.0990s Model time: 0.8193s
+2026-03-16 14:55:41,486 [INFO] 273th fragment failed, RRE: 93.2781, RTE: 1.5732
+2026-03-16 14:56:07,393 [INFO] [300/1623] Recall: 0.9967 RTE: 0.0454 RRE: 1.6752 Data time: 0.1254s Model time: 0.8162s
+2026-03-16 14:57:50,925 [INFO] [400/1623] Recall: 0.9975 RTE: 0.0456 RRE: 1.6296 Data time: 0.1439s Model time: 0.8336s
+2026-03-16 14:58:00,404 [INFO] 410th fragment failed, RRE: 15.5574, RTE: 0.2183
+2026-03-16 14:59:11,760 [INFO] 488th fragment failed, RRE: 12.7082, RTE: 0.3378
+2026-03-16 14:59:22,101 [INFO] [500/1623] Recall: 0.9940 RTE: 0.0448 RRE: 1.6866 Data time: 0.1055s Model time: 0.8063s
+2026-03-16 14:59:44,242 [INFO] 520th fragment failed, RRE: 79.2682, RTE: 2.8217
+2026-03-16 14:59:49,964 [INFO] 527th fragment failed, RRE: 110.5213, RTE: 2.9569
+2026-03-16 15:00:57,190 [INFO] [600/1623] Recall: 0.9917 RTE: 0.0474 RRE: 1.6907 Data time: 0.1297s Model time: 1.0048s
+2026-03-16 15:01:21,017 [INFO] 621th fragment failed, RRE: 91.7940, RTE: 0.6394
+2026-03-16 15:02:40,127 [INFO] 698th fragment failed, RRE: 3.4848, RTE: 0.5830
+2026-03-16 15:02:40,885 [INFO] [700/1623] Recall: 0.9900 RTE: 0.0488 RRE: 1.6928 Data time: 0.0744s Model time: 0.6599s
+2026-03-16 15:02:51,075 [INFO] 711th fragment failed, RRE: 12.8477, RTE: 0.4297
+2026-03-16 15:02:55,402 [INFO] 716th fragment failed, RRE: 118.7591, RTE: 2.0004
+2026-03-16 15:02:56,228 [INFO] 717th fragment failed, RRE: 125.6667, RTE: 2.2025
+2026-03-16 15:03:52,784 [INFO] 795th fragment failed, RRE: 29.5032, RTE: 2.2008
+2026-03-16 15:03:53,446 [INFO] 796th fragment failed, RRE: 17.7330, RTE: 0.7844
+2026-03-16 15:03:54,312 [INFO] 797th fragment failed, RRE: 18.4868, RTE: 0.8599
+2026-03-16 15:03:55,225 [INFO] 798th fragment failed, RRE: 180.0000, RTE: 1.5599
+2026-03-16 15:03:56,070 [INFO] 799th fragment failed, RRE: 51.7355, RTE: 1.3791
+2026-03-16 15:03:56,083 [INFO] [800/1623] Recall: 0.9812 RTE: 0.0497 RRE: 1.7946 Data time: 0.0724s Model time: 0.7579s
+2026-03-16 15:03:57,632 [INFO] 800th fragment failed, RRE: 28.1554, RTE: 1.4203
+2026-03-16 15:03:58,927 [INFO] 801th fragment failed, RRE: 91.9996, RTE: 4.1532
+2026-03-16 15:04:05,494 [INFO] 809th fragment failed, RRE: 6.4065, RTE: 0.3889
+2026-03-16 15:04:34,180 [INFO] 839th fragment failed, RRE: 7.7549, RTE: 0.4788
+2026-03-16 15:05:37,560 [INFO] [900/1623] Recall: 0.9789 RTE: 0.0511 RRE: 1.7773 Data time: 0.1999s Model time: 1.1237s
+2026-03-16 15:07:19,730 [INFO] [1000/1623] Recall: 0.9810 RTE: 0.0511 RRE: 1.7615 Data time: 0.1483s Model time: 0.9907s
+2026-03-16 15:07:56,263 [INFO] 1034th fragment failed, RRE: 95.7026, RTE: 0.2375
+2026-03-16 15:09:04,732 [INFO] [1100/1623] Recall: 0.9818 RTE: 0.0516 RRE: 1.7525 Data time: 0.1658s Model time: 1.0250s
+2026-03-16 15:09:48,452 [INFO] 1137th fragment failed, RRE: 89.4203, RTE: 3.5966
+2026-03-16 15:09:49,648 [INFO] 1138th fragment failed, RRE: 175.6086, RTE: 3.2359
+2026-03-16 15:09:51,050 [INFO] 1139th fragment failed, RRE: 88.7200, RTE: 3.5584
+2026-03-16 15:10:50,144 [INFO] [1200/1623] Recall: 0.9808 RTE: 0.0516 RRE: 1.7367 Data time: 0.0812s Model time: 0.7750s
+2026-03-16 15:12:34,142 [INFO] [1300/1623] Recall: 0.9823 RTE: 0.0543 RRE: 1.7840 Data time: 0.1494s Model time: 0.7635s
+2026-03-16 15:12:51,775 [INFO] 1310th fragment failed, RRE: 85.0247, RTE: 2.1231
+2026-03-16 15:12:57,672 [INFO] 1315th fragment failed, RRE: 85.7435, RTE: 2.2143
+2026-03-16 15:12:58,839 [INFO] 1316th fragment failed, RRE: 96.2573, RTE: 2.3138
+2026-03-16 15:13:00,483 [INFO] 1317th fragment failed, RRE: 7.0543, RTE: 0.9796
+2026-03-16 15:13:03,249 [INFO] 1318th fragment failed, RRE: 88.6291, RTE: 1.9190
+2026-03-16 15:13:25,931 [INFO] 1334th fragment failed, RRE: 47.8285, RTE: 2.1774
+2026-03-16 15:13:39,377 [INFO] 1343th fragment failed, RRE: 6.3297, RTE: 0.3227
+2026-03-16 15:13:40,471 [INFO] 1344th fragment failed, RRE: 19.4469, RTE: 0.7022
+2026-03-16 15:14:24,053 [INFO] 1381th fragment failed, RRE: 78.5461, RTE: 2.1829
+2026-03-16 15:14:35,974 [INFO] 1394th fragment failed, RRE: 90.2407, RTE: 1.9542
+2026-03-16 15:14:40,640 [INFO] [1400/1623] Recall: 0.9764 RTE: 0.0552 RRE: 1.7849 Data time: 0.1420s Model time: 0.8004s
+2026-03-16 15:14:41,714 [INFO] 1400th fragment failed, RRE: 27.5011, RTE: 2.3455
+2026-03-16 15:14:42,655 [INFO] 1401th fragment failed, RRE: 72.5140, RTE: 2.7222
+2026-03-16 15:14:58,538 [INFO] 1415th fragment failed, RRE: 2.2300, RTE: 0.9512
+2026-03-16 15:15:42,887 [INFO] 1449th fragment failed, RRE: 64.4654, RTE: 3.8060
+2026-03-16 15:15:47,002 [INFO] 1453th fragment failed, RRE: 53.9272, RTE: 2.8969
+2026-03-16 15:15:48,116 [INFO] 1454th fragment failed, RRE: 6.7746, RTE: 0.3923
+2026-03-16 15:16:44,650 [INFO] 1492th fragment failed, RRE: 91.5230, RTE: 0.4553
+2026-03-16 15:16:52,907 [INFO] 1498th fragment failed, RRE: 2.8952, RTE: 0.6803
+2026-03-16 15:16:54,095 [INFO] 1499th fragment failed, RRE: 89.1140, RTE: 0.2199
+2026-03-16 15:16:54,109 [INFO] [1500/1623] Recall: 0.9720 RTE: 0.0571 RRE: 1.8082 Data time: 0.1667s Model time: 1.0084s
+2026-03-16 15:16:55,727 [INFO] 1500th fragment failed, RRE: 88.5981, RTE: 0.2321
+2026-03-16 15:17:48,225 [INFO] 1544th fragment failed, RRE: 1.8889, RTE: 1.1457
+2026-03-16 15:17:51,072 [INFO] 1547th fragment failed, RRE: 101.5943, RTE: 4.3182
+2026-03-16 15:18:19,276 [INFO] 1578th fragment failed, RRE: 17.5176, RTE: 0.6861
+2026-03-16 15:18:29,682 [INFO] 1588th fragment failed, RRE: 5.8070, RTE: 0.4808
+2026-03-16 15:18:38,566 [INFO] [1600/1623] Recall: 0.9706 RTE: 0.0582 RRE: 1.8067 Data time: 0.0677s Model time: 0.5779s
+2026-03-16 15:19:08,267 [INFO] [1623/1623] Recall: 0.9710 RTE: 0.0579 RRE: 1.7989 Data time: 0.1831s Model time: 1.1578s
+2026-03-16 15:19:08,323 [INFO] 
+---------------Results for 3DMatch---------------
+2026-03-16 15:19:08,324 [INFO] Recall: 0.97104128
+2026-03-16 15:19:08,324 [INFO] RMSE Recall (3DMatch Evaluation): 0.95238844
+2026-03-16 15:19:08,324 [INFO] RTE: 5.78991490
+2026-03-16 15:19:08,324 [INFO] RRE: 1.79891814
+2026-03-16 15:19:08,324 [INFO] Average data_time: 0.1287s 
+2026-03-16 15:19:08,324 [INFO] Average model_time: 0.8891s 
+
+[1;32m========== Final Results Summary ==========
++---------+----------+------------+-------------+--------------+---------------+
+| Scene   |   Recall |   RTE (cm) |   RRE (deg) | Avg data t   | Avg model t   |
++=========+==========+============+=============+==============+===============+
+| 3DMatch |   0.9524 |     5.7899 |      1.7989 | 0.1287s      | 0.8891s       |
++---------+----------+------------+-------------+--------------+---------------+ [0m

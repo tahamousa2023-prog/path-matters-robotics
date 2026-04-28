@@ -1,0 +1,1 @@
+python -c "import trimesh; m = trimesh.load('/home/AP_PathMatters/path_matters/datasets/pix3d/img/tool/Spoon_white/SS_7/model.obj'); m.export('/home/AP_PathMatters/path_matters/datasets/pix3d/img/tool/Spoon_white/model.ply')"

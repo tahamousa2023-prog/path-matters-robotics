@@ -38,9 +38,9 @@ python pipeline.py \
     --debug
 
 ### my usage:
-python /home/AP_PathMatters/fast3r/fast3r_reconstruction.py \
-    --scene_dir /home/AP_PathMatters/path_matters/datasets/yoda \
-    --object_ply /home/AP_PathMatters/path_matters/datasets/yoda/Baby_Yoda.ply\
+python /path/to/fast3r/fast3r_reconstruction.py \
+    --scene_dir /path/to/path_matters/datasets/yoda \
+    --object_ply /path/to/path_matters/datasets/yoda/Baby_Yoda.ply\
     --visualize_reconstruction \
     --visualize_preprocessing \
     --visualize_steps \

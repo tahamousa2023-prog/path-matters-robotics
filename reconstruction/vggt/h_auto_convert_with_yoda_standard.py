@@ -3,10 +3,10 @@ import math
 import subprocess
 from pathlib import Path
 
-SCRIPT = Path("/home/AP_PathMatters/path_matters/Isaacsim/scripts/pcd_preprocess/14_12_convert_mesh.py")
+SCRIPT = Path("/path/to/path_matters/Isaacsim/scripts/pcd_preprocess/convert_mesh.py")
 
-ROOT = Path("/home/AP_PathMatters/path_matters/datasets/Synthetic_datasets_Haroun_Aziz/Objaverse_named_OBJ")
-YODA = Path("//home/AP_PathMatters/path_matters/datasets/yoda/Baby_Yoda_v2.2.stl")  # <-- set this
+ROOT = Path("/path/to/path_matters/datasets/Synthetic_datasets_Haroun_Aziz/Objaverse_named_OBJ")
+YODA = Path("//path/to/path_matters/datasets/yoda/Baby_Yoda_v2.2.stl")  # <-- set this
 
 N_REF = 50_000
 N_MIN = 10_000

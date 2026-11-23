@@ -2239,8 +2239,8 @@ if __name__ == "__main__":
 # # LICENSE file in the root directory of this source tree.
 # """
 # ### my usage:
-# python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp_28_03.py \
-#     --scene_dir /home/AP_PathMatters/path_matters/datasets/Reallife_Dataset_Haroun_Aziz/scenes-others_SUBSAMPLED/air_conditioner_control_camera3 \
+# python /path/to/vggt/z_demo_reconstruction_icp_28_03.py \
+#     --scene_dir /path/to/datasets/real_world/scenes-others_SUBSAMPLED/air_conditioner_control_camera3 \
 #     --object_ply textured.ply\
 #     --visualize_reconstruction \
 #     --yolo_crop \
@@ -2248,8 +2248,8 @@ if __name__ == "__main__":
 #     --visualize_final \
 #     --debug
 
-# python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp_28_03.py \
-#     --scene_dir /home/AP_PathMatters/path_matters/datasets/yoda \
+# python /path/to/vggt/z_demo_reconstruction_icp_28_03.py \
+#     --scene_dir /path/to/path_matters/datasets/yoda \
 #     --object_ply Baby_Yoda.ply\
 #     --visualize_reconstruction \
 #     --yolo_crop \

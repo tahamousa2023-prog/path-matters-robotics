@@ -46,11 +46,11 @@ python sam3d_icp_pipeline.py \
 
 ### Example usage:
 python sam3d_reconstruction.py \
-    --image_path /home/AP_PathMatters/path_matters/datasets/yoda/images/view_00.png \
+    --image_path /path/to/path_matters/datasets/yoda/images/view_00.png \
     --auto_mask largest \
-    --sam_checkpoint /home/AP_PathMatters/Downloads/sam_vit_h_4b8939.pth \
-    --object_ply /home/AP_PathMatters/path_matters/datasets/yoda/Baby_Yoda.ply \
-    --output_dir /home/AP_PathMatters/path_matters/datasets/yoda/sam3d_results \
+    --sam_checkpoint /path/to/Downloads/sam_vit_h_4b8939.pth \
+    --object_ply /path/to/path_matters/datasets/yoda/Baby_Yoda.ply \
+    --output_dir /path/to/path_matters/datasets/yoda/sam3d_results \
     --visualize_reconstruction \
     --visualize_final \
     --debug
@@ -666,7 +666,7 @@ def get_mask(args, output_dir: Path) -> Tuple[np.ndarray, np.ndarray]:
                 "sam_vit_h_4b8939.pth",
                 "checkpoints/sam_vit_h_4b8939.pth",
                 os.path.expanduser("~/sam_vit_h_4b8939.pth"),
-                "/home/AP_PathMatters/sam_vit_h_4b8939.pth",
+                "/path/to/sam_vit_h_4b8939.pth",
             ]
             for p in possible_paths:
                 if os.path.exists(p):

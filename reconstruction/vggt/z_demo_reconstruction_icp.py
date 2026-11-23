@@ -1092,7 +1092,7 @@ if __name__ == "__main__":
     setup_logging(level=logging.INFO)
     
     # Paths (MODIFY THESE)
-    SCENE_DIR = Path("/home/AP_PathMatters/path_matters/datasets/yoda")
+    SCENE_DIR = Path("/path/to/path_matters/datasets/yoda")
     OBJECT_PLY = SCENE_DIR / "Baby_Yoda.ply"
     SCENE_PLY = SCENE_DIR / "sparse/points.ply"
     OUTPUT_DIR = SCENE_DIR / "icp_results_improved"
@@ -2114,7 +2114,7 @@ if __name__ == "__main__":
 #     setup_logging(level=logging.INFO)
     
 #     # Paths (MODIFY THESE)
-#     SCENE_DIR = Path("/home/AP_PathMatters/path_matters/datasets/yoda")
+#     SCENE_DIR = Path("/path/to/path_matters/datasets/yoda")
 #     OBJECT_PLY = SCENE_DIR / "Baby_Yoda.ply"
 #     SCENE_PLY = SCENE_DIR / "sparse/points.ply"
 #     OUTPUT_DIR = SCENE_DIR / "icp_results_improved"
@@ -2192,10 +2192,10 @@ if __name__ == "__main__":
 #     --show_before
 
 
-# python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp.py \
-#     --scene_dir /home/AP_PathMatters/path_matters/datasets/yoda \
+# python /path/to/vggt/z_demo_reconstruction_icp.py \
+#     --scene_dir /path/to/path_matters/datasets/yoda \
 #     --run_icp \
-#     --object_ply /home/AP_PathMatters/path_matters/datasets/yoda/Baby_Yoda.ply\
+#     --object_ply /path/to/path_matters/datasets/yoda/Baby_Yoda.ply\
 #     --visualize_reconstruction \
 #     --visualize_preprocessing \
 #     --voxel_size_object 0.005 \
@@ -2206,10 +2206,10 @@ if __name__ == "__main__":
 #     --visualize_icp \
 #     --show_before
 
-# python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp.py \
-#     --scene_dir  /home/AP_PathMatters/path_matters/datasets/pix3d/img/misc/Bowl_white \
+# python /path/to/vggt/z_demo_reconstruction_icp.py \
+#     --scene_dir  /path/to/path_matters/datasets/pix3d/img/misc/Bowl_white \
 #     --run_icp \
-#     --object_ply /home/AP_PathMatters/path_matters/datasets/pix3d/img/misc/Bowl_white/model.ply \
+#     --object_ply /path/to/path_matters/datasets/pix3d/img/misc/Bowl_white/model.ply \
 #     --visualize_icp \
 #     --show_before
 # """

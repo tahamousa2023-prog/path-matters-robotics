@@ -38,17 +38,17 @@ python pipeline.py \
     --debug
 
 ### my usage:
-python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp_21_12.py \
-    --scene_dir /home/AP_PathMatters/path_matters/datasets/yoda \
-    --object_ply /home/AP_PathMatters/path_matters/datasets/yoda/Baby_Yoda.ply\
+python /path/to/vggt/z_demo_reconstruction_icp_21_12.py \
+    --scene_dir /path/to/path_matters/datasets/yoda \
+    --object_ply /path/to/path_matters/datasets/yoda/Baby_Yoda.ply\
     --visualize_reconstruction \
     --visualize_preprocessing \
     --visualize_steps \
     --debug
 
-python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp_21_12.py \
-    --scene_dir /home/AP_PathMatters/path_matters/datasets/Reallife_Dataset_Haroun_Aziz/scenes-others_SUBSAMPLED/air_conditioner_control_camera3 \
-    --object_ply /home/AP_PathMatters/path_matters/datasets/Reallife_Dataset_Haroun_Aziz/scenes-others_SUBSAMPLED/air_conditioner_control_camera3/textured.ply \
+python /path/to/vggt/z_demo_reconstruction_icp_21_12.py \
+    --scene_dir /path/to/datasets/real_world/scenes-others_SUBSAMPLED/air_conditioner_control_camera3 \
+    --object_ply /path/to/datasets/real_world/scenes-others_SUBSAMPLED/air_conditioner_control_camera3/textured.ply \
     --visualize_reconstruction \
     --visualize_preprocessing \
     --visualize_steps \
@@ -56,9 +56,9 @@ python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp_21_12.py \
     --auto
 
 ### best results, auto-tuning, sometimes need several tries:
-python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp_21_12.py \
-    --scene_dir /home/AP_PathMatters/path_matters/datasets/gso/adizero \
-    --object_ply /home/AP_PathMatters/path_matters/datasets/gso/adizero/model.ply \
+python /path/to/vggt/z_demo_reconstruction_icp_21_12.py \
+    --scene_dir /path/to/path_matters/datasets/gso/adizero \
+    --object_ply /path/to/path_matters/datasets/gso/adizero/model.ply \
     --no_plane_removal \
     --auto \
     --visualize_final

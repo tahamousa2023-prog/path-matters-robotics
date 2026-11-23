@@ -26,7 +26,7 @@ from scipy.spatial.transform import Rotation as R
 # ============================================================
 TARGET_OBJECT_PATH = "/World/phonograph_record__gramophone__55adaf6069c048bfb4f7b5f47c98384d_2"
 CAMERA_PATH = "/World/Camera"
-OUTPUT_DIR = "/home/AP_PathMatters/path_matters/datasets/Synthetic_datasets_Haroun_Aziz/Objaverse_named_OBJ/phonograph_record__gramophone__55adaf6069c048bfb4f7b5f47c98384d_2/images"
+OUTPUT_DIR = "/path/to/path_matters/datasets/Synthetic_datasets_Haroun_Aziz/Objaverse_named_OBJ/phonograph_record__gramophone__55adaf6069c048bfb4f7b5f47c98384d_2/images"
 
 # CAPTURE PARAMETERS
 NUM_POSITIONS = 8

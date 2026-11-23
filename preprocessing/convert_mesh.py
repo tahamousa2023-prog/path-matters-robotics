@@ -4,7 +4,7 @@ Converts between common 3D formats: OBJ, STL, PLY, PCD, USD, GLTF
 Uses Open3D and trimesh for robust conversion
 
 open a terminal
-python /home/AP_PathMatters/path_matters/Isaacsim/scripts/pcd_preprocess/14_12_convert_mesh.py /path/to/model.obj 50000
+python convert_mesh.py /path/to/model.obj 50000
 """
 
 

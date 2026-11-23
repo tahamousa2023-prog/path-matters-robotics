@@ -49,23 +49,23 @@ from pathlib import Path
 # ══════════════════════════════════════════════════════════════════════════════
 
 SCENE_ROOT = (
-    "/home/AP_PathMatters/path_matters/datasets/"
+    "/path/to/path_matters/datasets/"
     "Reallife_Dataset_Haroun_Aziz/scenes-others_SUBSAMPLED"
 )
 
 GT_ROOT = (
-    "/home/AP_PathMatters/path_matters/datasets/"
+    "/path/to/path_matters/datasets/"
     "Reallife_Dataset_Haroun_Aziz/scenes-others_SUBSAMPLED"
 )
 
-OUTPUT_BASE = "/home/AP_PathMatters/path_matters/runs/taha"
+OUTPUT_BASE = "/path/to/path_matters/runs/taha"
 
 PIPELINE_SCRIPT = (
-    "/home/AP_PathMatters/path_matters/haroun/Pipeline/"
+    "/path/to/path_matters/haroun/Pipeline/"
     "cc_bufferx_pipeline_package/run_cc_bufferx_pipeline.py"
 )
 
-BUFFERX_ROOT = "/home/AP_PathMatters/BUFFER-X"
+BUFFERX_ROOT = "/path/to/BUFFER-X"
 
 THIS_DIR = Path(__file__).parent
 

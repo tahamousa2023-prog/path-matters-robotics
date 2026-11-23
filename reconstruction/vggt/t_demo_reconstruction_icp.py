@@ -31,10 +31,10 @@ python /path/to/z_demo_reconstruction_icp.py  \
     --show_before
 
 
-python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp.py \
-    --scene_dir /home/AP_PathMatters/path_matters/datasets/yoda \
+python /path/to/vggt/z_demo_reconstruction_icp.py \
+    --scene_dir /path/to/path_matters/datasets/yoda \
     --run_icp \
-    --object_ply /home/AP_PathMatters/path_matters/datasets/yoda/Baby_Yoda_v2.2.ply\
+    --object_ply /path/to/path_matters/datasets/yoda/Baby_Yoda_v2.2.ply\
     --visualize_icp \
     --show_before
 """

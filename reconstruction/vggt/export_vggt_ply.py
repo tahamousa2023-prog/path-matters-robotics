@@ -13,7 +13,7 @@ Expected input:
   <scene>/images/
 
 Example:
-  conda run -n vggt python3 /home/AP_PathMatters/vggt/export_vggt_ply.py \
+  conda run -n vggt python3 /path/to/vggt/export_vggt_ply.py \
     --image_dir /path/to/scene/images \
     --out_ply /path/to/scene/recon_generated/vggt/points.ply \
     --max_images 120 \

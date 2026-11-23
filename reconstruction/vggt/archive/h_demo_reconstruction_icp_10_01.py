@@ -36,18 +36,18 @@ python h_demo_reconstruction_icp_05_01.py --batch_root /path/to/root --object_pl
 # Terminal
 
 #1
-python /home/AP_PathMatters/vggt/h_demo_reconstruction_icp_10_01.py \
-  --scene_dir /home/AP_PathMatters/path_matters/datasets/Reallife_Dataset_Haroun_Aziz/scenes-others_SUBSAMPLED/air_conditioner_control_camera3 \
-  --object_ply /home/AP_PathMatters/path_matters/datasets/Reallife_Dataset_Haroun_Aziz/scenes-others_SUBSAMPLED/air_conditioner_control_camera3/textured.ply \
+python /path/to/vggt/h_demo_reconstruction_icp_10_01.py \
+  --scene_dir /path/to/datasets/real_world/scenes-others_SUBSAMPLED/air_conditioner_control_camera3 \
+  --object_ply /path/to/datasets/real_world/scenes-others_SUBSAMPLED/air_conditioner_control_camera3/textured.ply \
   --auto \
   --no_scale \
   --skip_reconstruction \
   --save_screenshot
 
 #2
-python /home/AP_PathMatters/vggt/h_demo_reconstruction_icp_10_01.py \
-  --scene_dir /home/AP_PathMatters/path_matters/datasets/Reallife_Dataset_Haroun_Aziz/scenes-others_SUBSAMPLED/air_conditioner_control_camera3 \
-  --object_ply /home/AP_PathMatters/path_matters/datasets/Reallife_Dataset_Haroun_Aziz/scenes-others_SUBSAMPLED/air_conditioner_control_camera3/textured.ply \
+python /path/to/vggt/h_demo_reconstruction_icp_10_01.py \
+  --scene_dir /path/to/datasets/real_world/scenes-others_SUBSAMPLED/air_conditioner_control_camera3 \
+  --object_ply /path/to/datasets/real_world/scenes-others_SUBSAMPLED/air_conditioner_control_camera3/textured.ply \
   --auto \
   --no_scale \
   --skip_reconstruction \
@@ -55,12 +55,12 @@ python /home/AP_PathMatters/vggt/h_demo_reconstruction_icp_10_01.py \
   --plane_offset -0.05 \
   --save_screenshot
 3#
-source /home/AP_PathMatters/vggt/.venv/bin/activate
-export PYTHONPATH="/home/AP_PathMatters/vggt:$PYTHONPATH"
+source /path/to/vggt/.venv/bin/activate
+export PYTHONPATH="/path/to/vggt:$PYTHONPATH"
 
-python /home/AP_PathMatters/vggt/h_demo_reconstruction_icp_10_01.py \
-  --scene_dir /home/AP_PathMatters/path_matters/datasets/Synthetic_datasets_Haroun_Aziz/Objaverse_named_OBJ/phonograph_record__gramophone__55adaf6069c048bfb4f7b5f47c98384d_2 \
-  --object_ply /home/AP_PathMatters/path_matters/datasets/Synthetic_datasets_Haroun_Aziz/Objaverse_named_OBJ/phonograph_record__gramophone__55adaf6069c048bfb4f7b5f47c98384d_2/phonograph_record__gramophone__55adaf6069c048bfb4f7b5f47c98384d_2.ply \
+python /path/to/vggt/h_demo_reconstruction_icp_10_01.py \
+  --scene_dir /path/to/path_matters/datasets/Synthetic_datasets_Haroun_Aziz/Objaverse_named_OBJ/phonograph_record__gramophone__55adaf6069c048bfb4f7b5f47c98384d_2 \
+  --object_ply /path/to/path_matters/datasets/Synthetic_datasets_Haroun_Aziz/Objaverse_named_OBJ/phonograph_record__gramophone__55adaf6069c048bfb4f7b5f47c98384d_2/phonograph_record__gramophone__55adaf6069c048bfb4f7b5f47c98384d_2.ply \
   --auto \
   --no_scale \
   --visualize_reconstruction \

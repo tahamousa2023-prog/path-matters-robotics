@@ -27,7 +27,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 
-DEFAULT_REGISTER_SCRIPT = "/home/AP_PathMatters/path_matters/haroun/Pipeline/cc_bufferx_pipeline_package/run_cc_bufferx_pipeline.py"
+DEFAULT_REGISTER_SCRIPT = "/path/to/path_matters/haroun/Pipeline/cc_bufferx_pipeline_package/run_cc_bufferx_pipeline.py"
 
 
 def parse_args() -> argparse.Namespace:

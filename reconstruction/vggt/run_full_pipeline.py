@@ -28,7 +28,7 @@ def main():
 
         if not vggt_ply.exists():
             subprocess.check_call([
-                "python", "/home/AP_PathMatters/vggt/export_vggt_ply.py",
+                "python", "/path/to/vggt/export_vggt_ply.py",
                 "--image_dir", str(img_dir),
                 "--out_ply", str(vggt_ply),
                 "--max_images", str(args.max_images),
@@ -37,7 +37,7 @@ def main():
 
         if not fast3r_ply.exists():
             subprocess.check_call([
-                "python", "/home/AP_PathMatters/fast3r/export_fast3r_ply.py",
+                "python", "/path/to/fast3r/export_fast3r_ply.py",
                 "--image_dir", str(img_dir),
                 "--out_ply", str(fast3r_ply),
                 "--max_images", str(args.max_images),
@@ -52,10 +52,10 @@ def main():
     # - robust kernels only for PointToPlane ICP: https://www.open3d.org/docs/release/tutorial/pipelines/robust_kernels.html
 
     subprocess.check_call([
-        "python", "/home/AP_PathMatters/vggt/Last_attempt/compare_all_scenes_and_plot.py",
+        "python", "/path/to/vggt/Last_attempt/compare_all_scenes_and_plot.py",
         "--dataset_root", str(dataset_root),
         "--methods", "vggt", "fast3r",
-        "--out_dir", "/home/AP_PathMatters/vggt/Last_attempt/runs/reallife_compare",
+        "--out_dir", "/path/to/vggt/Last_attempt/runs/reallife_compare",
         "--method_pattern",
         f"vggt=**/{args.out_name}/vggt/points.ply",
         f"fast3r=**/{args.out_name}/fast3r/points.ply",

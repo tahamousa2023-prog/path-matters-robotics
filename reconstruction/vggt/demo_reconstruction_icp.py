@@ -39,9 +39,9 @@ python pipeline.py \
     --debug
 
 ### my usage:
-python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp_21_12.py \  
-    --scene_dir /home/AP_PathMatters/path_matters/datasets/yoda \                   ### this must be given, this has to have a folder called images with th eimages inside
-    --object_ply /home/AP_PathMatters/path_matters/datasets/yoda/Baby_Yoda.ply\     ### this must be given
+python /path/to/vggt/z_demo_reconstruction_icp_21_12.py \  
+    --scene_dir /path/to/path_matters/datasets/yoda \                   ### this must be given, this has to have a folder called images with th eimages inside
+    --object_ply /path/to/path_matters/datasets/yoda/Baby_Yoda.ply\     ### this must be given
     --visualize_reconstruction \
     --visualize_preprocessing \
     --visualize_steps \

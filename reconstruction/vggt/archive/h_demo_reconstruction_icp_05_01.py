@@ -1,4 +1,3 @@
-
 # Copyright (c) Meta Platforms, Inc. and affiliates.
 # All rights reserved.
 #
@@ -39,13 +38,41 @@ python pipeline.py \
     --debug
 
 ### my usage:
-python /home/AP_PathMatters/vggt/z_demo_reconstruction_icp_21_12.py \  
-    --scene_dir /home/AP_PathMatters/path_matters/datasets/yoda \                   ### this must be given, this has to have a folder called images with th eimages inside
-    --object_ply /home/AP_PathMatters/path_matters/datasets/yoda/Baby_Yoda.ply\     ### this must be given
+python /path/to/vggt/z_demo_reconstruction_icp_21_12.py \
+    --scene_dir /path/to/path_matters/datasets/yoda \
+    --object_ply /path/to/path_matters/datasets/yoda/Baby_Yoda.ply\
     --visualize_reconstruction \
     --visualize_preprocessing \
     --visualize_steps \
-    --debug 
+    --debug
+
+python /path/to/vggt/z_demo_reconstruction_icp_21_12.py \
+    --scene_dir /path/to/datasets/real_world/scenes-others_SUBSAMPLED/air_conditioner_control_camera3 \
+    --object_ply /path/to/datasets/real_world/scenes-others_SUBSAMPLED/air_conditioner_control_camera3/textured.ply \
+    --visualize_reconstruction \
+    --visualize_preprocessing \
+    --visualize_steps \
+    --debug \
+    --auto
+
+### best results, auto-tuning, sometimes need several tries:
+python /path/to/vggt/z_demo_reconstruction_icp_21_12.py \
+    --scene_dir /path/to/path_matters/datasets/gso/adizero \
+    --object_ply /path/to/path_matters/datasets/gso/adizero/model.ply \
+    --no_plane_removal \
+    --auto \
+    --visualize_final
+
+### Last
+python /path/to/vggt/h_demo_reconstruction_icp_05_01.py \
+  --scene_dir /path/to/datasets/real_world/scenes-others_SUBSAMPLED/baofengmojing_conctrol_camera3 \
+  --object_ply /path/to/datasets/real_world/scenes-others_SUBSAMPLED/baofengmojing_conctrol_camera3/textured.ply \
+  --visualize_reconstruction \
+  --visualize_preprocessing \
+  --visualize_steps \
+  --debug
+
+
 """
 
 # ============================================================================
@@ -193,7 +220,7 @@ torch.backends.cudnn.deterministic = False
 # VGGT RECONSTRUCTION PARAMETERS
 # ----------------------------------------------------------------------------
 DEFAULT_SEED = 42  # Random seed for reproducibility
-DEFAULT_CONFIDENCE_THRESHOLD = 2.0  # Minimum confidence for keeping 3D points (higher = fewer points but higher quality)
+DEFAULT_CONFIDENCE_THRESHOLD = 3  # Minimum confidence for keeping 3D points (higher = fewer points but higher quality)
 
 # ----------------------------------------------------------------------------
 # SCENE PREPROCESSING PARAMETERS
@@ -206,7 +233,7 @@ DEFAULT_SCENE_OUTLIER_STD_RATIO = 5.0  # Standard deviation threshold for outlie
 DEFAULT_PLANE_DISTANCE_THRESHOLD = 0.015  # Max distance from plane to be considered part of it (meters)
 DEFAULT_PLANE_OFFSET = -0.015  # How much to offset plane removal (negative = remove more)
 DEFAULT_SCENE_NORMAL_RADIUS = 1.0  # Search radius for normal estimation in scene
-DEFAULT_SCENE_NORMAL_MAX_NN = 30  # Max neighbors for normal estimation in scene
+DEFAULT_SCENE_NORMAL_MAX_NN = 30  # Max neighbors for normadl estimation in scene
 
 # ----------------------------------------------------------------------------
 # OBJECT PREPROCESSING PARAMETERS
@@ -234,7 +261,7 @@ DEFAULT_RANSAC_CORRESPONDENCE_CHECKER_DISTANCE = 0.1  # Distance threshold for c
 DEFAULT_RANSAC_NORMAL_RADIUS = 5.0  # Search radius for computing normals for RANSAC
 DEFAULT_RANSAC_NORMAL_MAX_NN = 100  # Max neighbors for computing normals for RANSAC
 DEFAULT_RANSAC_FPFH_RADIUS = 5.0  # Search radius for computing FPFH features (larger = more context)
-DEFAULT_RANSAC_FPFH_MAX_NN = 5  # Max neighbors for computing FPFH features
+DEFAULT_RANSAC_FPFH_MAX_NN = 75  # Max neighbors for computing FPFH features
 
 # ----------------------------------------------------------------------------
 # ICP REFINEMENT PARAMETERS
@@ -261,8 +288,8 @@ DEFAULT_ADAPTIVE_TRANSLATION_NOISE_START = 0.1  # Initial translation noise (met
 # ----------------------------------------------------------------------------
 # Scale refinement searches for the best object scale
 
-DEFAULT_SCALE_SEARCH_MIN_FACTOR = 0.5  # Minimum scale to test (0.5 = 50% of initial scale)
-DEFAULT_SCALE_SEARCH_MAX_FACTOR = 1.5  # Maximum scale to test (1.5 = 150% of initial scale)
+DEFAULT_SCALE_SEARCH_MIN_FACTOR = 0.85  # Minimum scale to test (0.5 = 50% of initial scale)
+DEFAULT_SCALE_SEARCH_MAX_FACTOR = 1.15  # Maximum scale to test (1.5 = 150% of initial scale)
 DEFAULT_SCALE_REFINEMENT_MAX_ITERATIONS = 6  # Max iterations for scale search
 DEFAULT_SCALE_CONVERGENCE_THRESHOLD = 0.05  # Stop when search range is within ±5% of initial scale
 DEFAULT_SCALE_ICP_MAX_ITERATIONS = 200  # ICP iterations when testing each scale
@@ -366,7 +393,9 @@ Examples:
                        help="Show final alignment result (default: True)")
     parser.add_argument("--no_visualize_final", dest="visualize_final", action="store_false",
                        help="Disable final visualization")
-    
+    # ==== AUTO-TUNING ====
+    parser.add_argument("--auto", action="store_true",
+                       help="Automatically tune parameters based on object/scene size")
     # ==== DEBUG ====
     parser.add_argument("--debug", action="store_true",
                        help="Enable detailed debug logging")
@@ -464,6 +493,87 @@ class PipelineConfig:
 # ============================================================================
 # UTILITY FUNCTIONS
 # ============================================================================
+
+def compute_adaptive_parameters(object_pcd, scene_pcd, config):
+    """
+    Automatically compute parameters based on point cloud sizes.
+    This makes the pipeline work across different object scales.
+    """
+    # Get bounding box sizes
+    obj_bbox = object_pcd.get_axis_aligned_bounding_box()
+    scene_bbox = scene_pcd.get_axis_aligned_bounding_box()
+    
+    obj_size = np.linalg.norm(obj_bbox.get_extent())
+    scene_size = np.linalg.norm(scene_bbox.get_extent())
+    
+    # Estimate the scale ratio
+    scale_ratio = scene_size / obj_size
+    
+    logging.info("\n" + "="*70)
+    logging.info("  AUTO-TUNING PARAMETERS")
+    logging.info("="*70)
+    logging.info(f"Object size (bbox diagonal): {obj_size:.6f}")
+    logging.info(f"Scene size (bbox diagonal): {scene_size:.6f}")
+    logging.info(f"Estimated scale ratio: {scale_ratio:.4f}")
+    
+    # Use the LARGER of object or scene for parameter scaling
+    # (after scaling, object should be similar size to scene)
+    # 1) Choose ONE voxel size that represents point spacing for registration
+    # For small objects (like your remote), use object size, not scene size.
+    voxel = max(obj_size * 0.02, 0.002)   # 2% of object bbox diagonal, minimum 2mm
+
+    # 2) Use voxel to set downsampling consistently
+    config.RANSAC_DOWNSAMPLE = voxel
+    config.SCENE_DOWNSAMPLE_VOXEL = max(0.5 * voxel, 0.001)
+    config.OBJECT_DOWNSAMPLE_VOXEL = max(0.5 * voxel, 0.001)
+
+    # 3) Derive RANSAC / FPFH / Normal params from voxel
+    config.RANSAC_NORMAL_RADIUS = 2.0 * voxel
+    config.RANSAC_FPFH_RADIUS   = 5.0 * voxel
+    config.RANSAC_MAX_CORRESPONDENCE_DISTANCE = 1.5 * voxel
+    config.RANSAC_CORRESPONDENCE_CHECKER_DISTANCE = 1.5 * voxel
+    config.RANSAC_NORMAL_MAX_NN = 50
+    config.RANSAC_FPFH_MAX_NN   = 100
+    config.RANSAC_TRIES = 80
+
+    # 4) Derive ICP distance from voxel (usually tighter than RANSAC)
+    config.ICP_MAX_CORRESPONDENCE_DISTANCE = 0.4 * voxel
+    config.ICP_MAX_ITERATIONS = 800
+
+    # 5) Adaptive refinement noise tied to voxel (small nudges)
+    config.ADAPTIVE_NOISE_TRANSLATION_START = 2.0 * voxel
+    config.ADAPTIVE_NOISE_ROTATION_RANGE = 0.05
+    config.ADAPTIVE_MAX_ITERATIONS = 200
+    config.ADAPTIVE_ICP_DISTANCE_MULTIPLIER = 1.0
+
+    
+    # Adaptive refinement - larger search space
+    config.ADAPTIVE_NOISE_TRANSLATION_START = reference_size * 0.1  # 10% of size
+    config.ADAPTIVE_NOISE_ROTATION_RANGE = 0.05  # ~3 degrees
+    config.ADAPTIVE_MAX_ITERATIONS = 150
+    config.ADAPTIVE_ICP_DISTANCE_MULTIPLIER = 1.0  # Don't reduce ICP distance
+    
+    # Relaxed thresholds for difficult objects
+    config.ADAPTIVE_FITNESS_THRESHOLD = 0.70  # Lower target
+    config.ADAPTIVE_RMSE_THRESHOLD = reference_size * 0.03  # 3% of size
+    
+    # Scale search - narrow range since bbox estimate should be close
+    config.SCALE_SEARCH_MIN_FACTOR = 0.7  # Only 70% to 130%
+    config.SCALE_SEARCH_MAX_FACTOR = 1.3
+    
+    logging.info(f"\nAuto-computed parameters:")
+    logging.info(f"  ICP distance: {config.ICP_MAX_CORRESPONDENCE_DISTANCE:.6f}")
+    logging.info(f"  RANSAC distance: {config.RANSAC_MAX_CORRESPONDENCE_DISTANCE:.6f}")
+    logging.info(f"  RANSAC tries: {config.RANSAC_TRIES}")
+    logging.info(f"  FPFH radius: {config.RANSAC_FPFH_RADIUS:.6f}")
+    logging.info(f"  Scene downsample: {config.SCENE_DOWNSAMPLE_VOXEL:.6f}")
+    logging.info(f"  Object downsample: {config.OBJECT_DOWNSAMPLE_VOXEL:.6f}")
+    logging.info(f"  Translation noise: {config.ADAPTIVE_NOISE_TRANSLATION_START:.6f}")
+    logging.info(f"  Rotation noise: {config.ADAPTIVE_NOISE_ROTATION_RANGE:.4f} rad")
+    logging.info(f"  Scale search: [{config.SCALE_SEARCH_MIN_FACTOR:.1f}x, {config.SCALE_SEARCH_MAX_FACTOR:.1f}x]")
+    logging.info("="*70)
+    
+    return config
 
 def setup_logging(level=logging.INFO):
     """Setup logging configuration with timestamps and levels"""
@@ -768,6 +878,16 @@ def preprocess_scene(pcd_path: Path, config: PipelineConfig, save_path: Optional
         logging.info(f"✓ Saved: {save_path}")
     
     logging.info(f"✓ Complete: {original_count} → {len(pcd.points)} points ({100*len(pcd.points)/original_count:.1f}% remaining)")
+
+    # Ensure normals exist (needed for point-to-plane ICP)
+    if not pcd.has_normals():
+       pcd.estimate_normals(
+            search_param=o3d.geometry.KDTreeSearchParamHybrid(
+                radius=config.SCENE_NORMAL_RADIUS,
+               max_nn=config.SCENE_NORMAL_MAX_NN
+            )
+        )
+
     return pcd
 
 
@@ -885,6 +1005,109 @@ def estimate_scale(source, target, config):
 # RANSAC INITIAL ALIGNMENT
 # ============================================================================
 
+def try_multiple_rotations(source, target, config):
+    """
+    Try RANSAC with multiple initial rotations to avoid local minima.
+    Tests 24 different orientations (90° increments around all axes).
+    """
+    logging.info("\n" + "="*70)
+    logging.info("  MULTI-ROTATION RANSAC")
+    logging.info("="*70)
+    
+    # Generate rotation matrices for 90° increments around each axis
+    rotations = []
+    # 45-degree increments for better coverage
+    angles = [0, np.pi/4, np.pi/2, 3*np.pi/4, np.pi, 5*np.pi/4, 3*np.pi/2, 7*np.pi/4]
+    for rx in angles:
+        for ry in [0, np.pi/2, np.pi, 3*np.pi/2]:  # Keep Y at 90°
+            for rz in [0, np.pi/2]:
+                R = o3d.geometry.get_rotation_matrix_from_xyz([rx, ry, rz])
+                rotations.append(R)
+    
+    # Remove duplicates (some combinations give same result)
+    unique_rotations = []
+    for R in rotations:
+        is_duplicate = False
+        for R_existing in unique_rotations:
+            if np.allclose(R, R_existing, atol=0.01):
+                is_duplicate = True
+                break
+        if not is_duplicate:
+            unique_rotations.append(R)
+    
+    logging.info(f"Testing {len(unique_rotations)} unique rotations...")
+    
+    best_result = None
+    best_fitness = -1
+    best_rotation = np.eye(3)
+    
+    for i, R in enumerate(unique_rotations):
+        # Rotate the source point cloud
+        source_rotated = copy.deepcopy(source)
+        center = source_rotated.get_center()
+        source_rotated.rotate(R, center=center)
+        
+        # Quick RANSAC with fewer tries
+        try:
+            # Downsample for speed
+            source_down = source_rotated.voxel_down_sample(config.RANSAC_DOWNSAMPLE)
+            target_down = target.voxel_down_sample(config.RANSAC_DOWNSAMPLE)
+            
+            # Compute features
+            source_down.estimate_normals(
+                search_param=o3d.geometry.KDTreeSearchParamHybrid(
+                    radius=config.RANSAC_NORMAL_RADIUS, max_nn=config.RANSAC_NORMAL_MAX_NN))
+            target_down.estimate_normals(
+                search_param=o3d.geometry.KDTreeSearchParamHybrid(
+                    radius=config.RANSAC_NORMAL_RADIUS, max_nn=config.RANSAC_NORMAL_MAX_NN))
+            
+            source_fpfh = o3d.pipelines.registration.compute_fpfh_feature(
+                source_down, o3d.geometry.KDTreeSearchParamHybrid(
+                    radius=config.RANSAC_FPFH_RADIUS, max_nn=config.RANSAC_FPFH_MAX_NN))
+            target_fpfh = o3d.pipelines.registration.compute_fpfh_feature(
+                target_down, o3d.geometry.KDTreeSearchParamHybrid(
+                    radius=config.RANSAC_FPFH_RADIUS, max_nn=config.RANSAC_FPFH_MAX_NN))
+            
+            # Quick RANSAC
+            result = o3d.pipelines.registration.registration_ransac_based_on_feature_matching(
+                source_down, target_down, source_fpfh, target_fpfh,
+                mutual_filter=True,
+                max_correspondence_distance=config.RANSAC_MAX_CORRESPONDENCE_DISTANCE,
+                estimation_method=o3d.pipelines.registration.TransformationEstimationPointToPoint(False),
+                ransac_n=3,
+                checkers=[
+                    o3d.pipelines.registration.CorrespondenceCheckerBasedOnEdgeLength(0.9),
+                    o3d.pipelines.registration.CorrespondenceCheckerBasedOnDistance(
+                        config.RANSAC_CORRESPONDENCE_CHECKER_DISTANCE)
+                ],
+                criteria=o3d.pipelines.registration.RANSACConvergenceCriteria(50000, 0.999)
+            )
+            
+            # Refine with ICP
+            result = o3d.pipelines.registration.registration_icp(
+                source_rotated, target,
+                config.ICP_MAX_CORRESPONDENCE_DISTANCE,
+                result.transformation,
+                o3d.pipelines.registration.TransformationEstimationPointToPoint(),
+                criteria=o3d.pipelines.registration.ICPConvergenceCriteria(max_iteration=100)
+            )
+            
+            if result.fitness > best_fitness:
+                best_fitness = result.fitness
+                best_result = result
+                best_rotation = R
+                logging.info(f"  Rotation {i+1}/{len(unique_rotations)}: fitness={result.fitness:.4f} ✅ NEW BEST!")
+            else:
+                logging.debug(f"  Rotation {i+1}/{len(unique_rotations)}: fitness={result.fitness:.4f}")
+                
+        except Exception as e:
+            logging.debug(f"  Rotation {i+1} failed: {e}")
+            continue
+    
+    logging.info(f"✓ Best rotation found with fitness={best_fitness:.4f}")
+    
+    return best_result, best_rotation
+
 @timeit
 def initial_alignment_ransac(source, target, config):
     """
@@ -970,7 +1193,7 @@ def initial_alignment_ransac(source, target, config):
         result = o3d.pipelines.registration.registration_ransac_based_on_feature_matching(
             source_down, target_down, source_fpfh, target_fpfh,
             mutual_filter=True,
-            max_correspondence_distance=config.RANSAC_MAX_CORRESPONDENCE_DISTANCE * 0.1,
+            max_correspondence_distance=config.RANSAC_MAX_CORRESPONDENCE_DISTANCE,
             estimation_method=o3d.pipelines.registration.TransformationEstimationPointToPoint(False),
             ransac_n=3,
             checkers=[
@@ -1193,9 +1416,33 @@ def refine_scale_by_fitness(object_pcd, scene_pcd, initial_scale, initial_result
                 )
                 
                 rmse = result.inlier_rmse
+                fitness = result.fitness
+
+                # ---- anti-tiny-scale guard ----
+                # 1) reject scales that are too far from initial scale
+                if scale < initial_scale * 0.7 or scale > initial_scale * 1.3:
+                    rmse = float("inf")
+
+                # 2) require a minimum fitness (avoid "small object matches a random patch")
+                if fitness < 0.6:
+                    rmse = float("inf")
+
+                
+                # FIX: Skip failed alignments (fitness=0 means no correspondences)
+                if fitness == 0 or rmse == 0:
+                    logging.info(f"  {label:3s} ({scale:.6f}): fitness={fitness:.4f}, "
+                               f"rmse={rmse:.6f} ⚠️ FAILED")
+                    results.append({
+                        'scale': scale,
+                        'rmse': float('inf'),
+                        'fitness': 0.0,
+                        'label': label,
+                        'result': None
+                    })
+                    continue
                 
                 best_marker = "✅ BEST" if rmse < best_rmse else ""
-                logging.info(f"  {label:3s} ({scale:.6f}): fitness={result.fitness:.4f}, "
+                logging.info(f"  {label:3s} ({scale:.6f}): fitness={fitness:.4f}, "
                            f"rmse={rmse:.6f} {best_marker}")
                 
                 results.append({
@@ -1340,17 +1587,38 @@ def run_pipeline(args):
     # STAGE 2: PREPROCESSING
     # ========================================================================
     
+    # --- First pass preprocessing (needed so we can measure sizes for auto) ---
     scene_pcd = preprocess_scene(
         pcd_path=scene_ply_path,
         config=config,
-        save_path=output_dir / "scene_preprocessed.ply"
+        save_path=output_dir / "scene_preprocessed_pass1.ply"
     )
-    
+
     object_pcd = preprocess_object(
         pcd_path=Path(args.object_ply),
         config=config
     )
+
+    # --- AUTO-TUNING ---
+    if args.auto:
+        config = compute_adaptive_parameters(object_pcd, scene_pcd, config)
+
+        # IMPORTANT: re-run preprocessing using the auto-tuned config
+        scene_pcd = preprocess_scene(
+        pcd_path=scene_ply_path,
+        config=config,
+        save_path=output_dir / "scene_preprocessed.ply"
+        )
+        object_pcd = preprocess_object(
+        pcd_path=Path(args.object_ply),
+        config=config
+        )
+    else:
+    # keep the first pass results as the final ones
+        o3d.io.write_point_cloud(str(output_dir / "scene_preprocessed.ply"), scene_pcd)
+
     
+    # ========================================================================
     # ========================================================================
     # STAGE 3: SCALE ESTIMATION
     # ========================================================================
@@ -1371,9 +1639,26 @@ def run_pipeline(args):
     # STAGE 4: RANSAC INITIAL ALIGNMENT
     # ========================================================================
     
-    local_result, all_attempts = initial_alignment_ransac(
-        object_pcd_scaled, scene_pcd, config
-    )
+    # Try multiple rotations first to find best orientation
+    if args.auto:
+        multi_result, best_rotation = try_multiple_rotations(
+            object_pcd_scaled, scene_pcd, config
+        )
+        
+        # Apply the best rotation
+        if multi_result is not None and multi_result.fitness > 0.3:
+            object_pcd_scaled.rotate(best_rotation, center=object_pcd_scaled.get_center())
+            local_result = multi_result
+            logging.info(f"Using multi-rotation result: fitness={local_result.fitness:.4f}")
+        else:
+            # Fallback to standard RANSAC
+            local_result, all_attempts = initial_alignment_ransac(
+                object_pcd_scaled, scene_pcd, config
+            )
+    else:
+        local_result, all_attempts = initial_alignment_ransac(
+            object_pcd_scaled, scene_pcd, config
+        )
     
     # Refine RANSAC result with ICP
     logging.info("\n🔧 Refining RANSAC with ICP...")
@@ -1381,17 +1666,21 @@ def run_pipeline(args):
         object_pcd_scaled, scene_pcd,
         config.ICP_MAX_CORRESPONDENCE_DISTANCE,
         local_result.transformation,
-        o3d.pipelines.registration.TransformationEstimationPointToPoint(),
+        o3d.pipelines.registration.TransformationEstimationPointToPlane(),
         criteria=o3d.pipelines.registration.ICPConvergenceCriteria(
             max_iteration=config.ICP_MAX_ITERATIONS
         )
     )
+
     logging.info(f"  After ICP: fitness={local_result.fitness:.4f}, RMSE={local_result.inlier_rmse:.6f}")
     
     # ========================================================================
     # STAGE 5: ADAPTIVE REFINEMENT
     # ========================================================================
-    
+    # Force more refinement after multi-rotation
+    if args.auto:
+        config.ADAPTIVE_FITNESS_THRESHOLD = 0.95
+        config.ADAPTIVE_RMSE_THRESHOLD = config.ADAPTIVE_RMSE_THRESHOLD * 0.5
     final_result = adaptive_refinement(
         object_pcd_scaled, scene_pcd, local_result, config
     )
@@ -1510,5 +1799,3 @@ if __name__ == "__main__":
     print(f"   Final fitness: {metrics['final_fitness']:.4f}")
     print(f"   Final RMSE: {metrics['final_rmse']:.6f}")
     print(f"   Final scale: {metrics['scale']:.6f}")
-
-

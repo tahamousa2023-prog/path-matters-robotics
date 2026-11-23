@@ -10,12 +10,12 @@ src.scale(scale, center=src.get_center())
 o3d.io.write_point_cloud('PATH/TO/RECON_scaled.ply', src)
 "
 Step 2 — run BUFFER-X + ICP:
-bashpython /home/AP_PathMatters/path_matters/haroun/Pipeline/cc_bufferx_pipeline_package/run_cc_bufferx_pipeline.py \
+bashpython /path/to/path_matters/haroun/Pipeline/cc_bufferx_pipeline_package/run_cc_bufferx_pipeline.py \
   --recon-root  SCENE_FOLDER \
   --gt-root     SCENE_FOLDER \
-  --output-base /home/AP_PathMatters/path_matters/runs/taha \
+  --output-base /path/to/path_matters/runs/taha \
   --run-name    MY_RUN_NAME \
-  --bufferx-root /home/AP_PathMatters/BUFFER-X \
+  --bufferx-root /path/to/BUFFER-X \
   --bufferx-env  bufferx_o3d \
   --scene-names  SCENE_NAME \
   --recon-candidates sparse/points_scaled.ply sparse/points.ply \
@@ -24,5 +24,5 @@ bashpython /home/AP_PathMatters/path_matters/haroun/Pipeline/cc_bufferx_pipeline
   --save-viz \
   --show-final-viz
 Step 3 — read result:
-bashcat /home/AP_PathMatters/path_matters/runs/taha/MY_RUN_NAME/SCENE_NAME/icp/icp_summary.json
+bashcat /path/to/path_matters/runs/taha/MY_RUN_NAME/SCENE_NAME/icp/icp_summary.json
 Replace PATH/TO/RECON.ply, PATH/TO/GT.ply, SCENE_FOLDER, SCENE_NAME, MY_RUN_NAME with your actual paths.
